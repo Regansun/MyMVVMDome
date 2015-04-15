@@ -14,5 +14,6 @@
 #import "Config.h"
 #import "SVProgressHUD.h"
 #import "NetRequestClass.h"
+#import "ReactiveCocoa.h"
 
 #endif

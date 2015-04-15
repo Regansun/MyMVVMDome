@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		590AA4701ADCBEC600D88B53 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 590AA46F1ADCBEC600D88B53 /* LoginViewController.m */; };
+		59579C6C1ADE5D1100CD309C /* LoginViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59579C6B1ADE5D1100CD309C /* LoginViewModel.m */; };
 		598A9C111AD4F5B800C1510E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 598A9C101AD4F5B800C1510E /* main.m */; };
 		598A9C141AD4F5B800C1510E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 598A9C131AD4F5B800C1510E /* AppDelegate.m */; };
 		598A9C171AD4F5B800C1510E /* MyMVVMDome.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 598A9C151AD4F5B800C1510E /* MyMVVMDome.xcdatamodeld */; };
@@ -57,6 +59,10 @@
 		2354151E4D1059887B563E8C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E7CDEF2932F21B2DA513C40 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		46E4AE8E409AB637A762458A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		590AA46E1ADCBEC600D88B53 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		590AA46F1ADCBEC600D88B53 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		59579C6A1ADE5D1100CD309C /* LoginViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewModel.h; sourceTree = "<group>"; };
+		59579C6B1ADE5D1100CD309C /* LoginViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewModel.m; sourceTree = "<group>"; };
 		598A9C0B1AD4F5B800C1510E /* MyMVVMDome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyMVVMDome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		598A9C0F1AD4F5B800C1510E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		598A9C101AD4F5B800C1510E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -283,6 +289,8 @@
 		598A9C3E1AD4F67600C1510E /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				590AA46E1ADCBEC600D88B53 /* LoginViewController.h */,
+				590AA46F1ADCBEC600D88B53 /* LoginViewController.m */,
 				598A9C851AD4FC4800C1510E /* PublicTableViewController.h */,
 				598A9C861AD4FC4800C1510E /* PublicTableViewController.m */,
 				59FA7F001AD513D500DB5D2B /* PublicDetailViewController.h */,
@@ -296,6 +304,8 @@
 		598A9C3F1AD4F68500C1510E /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				59579C6A1ADE5D1100CD309C /* LoginViewModel.h */,
+				59579C6B1ADE5D1100CD309C /* LoginViewModel.m */,
 				59FA7EFA1AD50E3900DB5D2B /* ViewModelClass.h */,
 				59FA7EFB1AD50E3900DB5D2B /* ViewModelClass.m */,
 				59FA7EFD1AD5101700DB5D2B /* PublicWeiboViewModel.h */,
@@ -509,6 +519,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				590AA4701ADCBEC600D88B53 /* LoginViewController.m in Sources */,
 				59FA7F021AD513D500DB5D2B /* PublicDetailViewController.m in Sources */,
 				598A9C611AD4F97500C1510E /* AFURLConnectionOperation.m in Sources */,
 				598A9C5C1AD4F97500C1510E /* AFHTTPRequestOperation.m in Sources */,
@@ -516,6 +527,7 @@
 				598A9C7A1AD4F97B00C1510E /* UIButton+AFNetworking.m in Sources */,
 				598A9C871AD4FC4800C1510E /* PublicTableViewController.m in Sources */,
 				598A9C5F1AD4F97500C1510E /* AFNetworkReachabilityManager.m in Sources */,
+				59579C6C1ADE5D1100CD309C /* LoginViewModel.m in Sources */,
 				598A9C7C1AD4F97B00C1510E /* UIProgressView+AFNetworking.m in Sources */,
 				59FA7EFC1AD50E3900DB5D2B /* ViewModelClass.m in Sources */,
 				598A9C641AD4F97500C1510E /* AFURLSessionManager.m in Sources */,

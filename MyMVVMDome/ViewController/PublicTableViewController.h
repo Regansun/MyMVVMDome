@@ -10,4 +10,6 @@
 
 @interface PublicTableViewController : UITableViewController
 
+- (IBAction)logOutAction:(id)sender;
+
 @end
