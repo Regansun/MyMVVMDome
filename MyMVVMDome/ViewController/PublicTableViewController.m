@@ -40,7 +40,7 @@
     
     [publicViewModel fetchPublicWeiBo];
     
-    [SVProgressHUD showWithStatus:@"正在获取用户信息……" maskType:SVProgressHUDMaskTypeBlack];
+    [SVProgressHUD showWithStatus:@"正在获取用户信息……" maskType:SVProgressHUDMaskTypeClear];
 }
 
 #pragma mark - Table view data source

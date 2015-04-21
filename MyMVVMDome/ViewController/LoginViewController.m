@@ -24,11 +24,33 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [self.userName.layer setBorderWidth:1];
+    [self.userName.layer setBorderColor:[UIColor colorWithRed:0.635 green:1.000 blue:0.939 alpha:1.000].CGColor];
+    [self.passWord.layer setBorderWidth:1];
+    [self.passWord.layer setBorderColor:[UIColor colorWithRed:0.510 green:1.000 blue:0.965 alpha:1.000].CGColor];
     
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@"" object:@"123"] subscribeNext:^(id x) {
+        
+    }];
+    
+    NSArray *array = @[@"foo"];
+    [[array rac_willDeallocSignal] subscribeCompleted:^{
+        NSLog(@"oops, i will be gone");
+    }];
+    array = nil;
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] init];
+    @weakify(self);
+    [tap.rac_gestureSignal subscribeNext:^(id x) {
+        @strongify(self);
+        [self.userName resignFirstResponder];
+        [self.passWord resignFirstResponder];
+    }];
     [self.view addGestureRecognizer:tap];
     
     self.viewModel = [LoginViewModel new];
+    
+    
     
     /**
      *  当userName的text值长度大于3小于等于10的时候 输出值
@@ -50,8 +72,14 @@
     /**
      *  检测用户名是否有效  有效字体黑色，反之红色
      */
+    
     RACSignal *validUsernameSignal = [self.userName.rac_textSignal map:^id(NSString *value) {
+        @strongify(self);
         return @([self validText:value]);
+    }];
+    [[self rac_signalForSelector:@selector(textFieldShouldReturn:) fromProtocol:@protocol(UITextFieldDelegate)] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.userName resignFirstResponder];
     }];
 //    [[validUsernameSignal map:^id(NSNumber *usernameValid) {
 //        return [usernameValid boolValue] ? [UIColor blackColor]:[UIColor redColor];
@@ -68,7 +96,13 @@
      *  检测密码是否有效 有效字体黑色，反之红色
      */
     RACSignal *validPasswordSingal = [self.passWord.rac_textSignal map:^id(NSString *value) {
+        @strongify(self);
         return @([self validText:value]);
+    }];
+    
+    [[self rac_signalForSelector:@selector(textFieldShouldReturn:) fromProtocol:@protocol(UITextFieldDelegate)] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.passWord resignFirstResponder];
     }];
 //    [[validPasswordSingal map:^id(NSNumber *passwordValid) {
 //        return [passwordValid boolValue] ? [UIColor blackColor]:[UIColor redColor];
@@ -78,8 +112,6 @@
     RAC(self.passWord, textColor) = [validPasswordSingal map:^id(NSNumber *passwordValid) {
         return [passwordValid boolValue] ? [UIColor blackColor]:[UIColor redColor];
     }];
-    
-    
     
     /**
      *  聚合两个信号量，当都有效的时候，登录按钮才可以点击
@@ -103,10 +135,13 @@
     
     //flattenMap与map 的区别 flattenMap可以从内部信号发送事件到外部信号   doNext添加附加操作
     [[[[self.loginButton rac_signalForControlEvents:UIControlEventTouchUpInside] doNext:^(id x) {
+        @strongify(self);
         self.loginButton.enabled = NO; //在登录逻辑过程中 设置按钮不可点击
     }] flattenMap:^RACStream *(id value) {
+        @strongify(self);
          return [self signInSignal];   //执行登录过程  并返回一个带有是否登录成功信号的信号量
     }]subscribeNext:^(NSNumber *signedIn) {
+        @strongify(self);
         self.loginButton.enabled = YES; //根据登录返回的信号量 做出处理
         BOOL success =[signedIn boolValue];
         if(success){
@@ -125,12 +160,15 @@
     }];
     
     [[[[self.forgetPwdButton rac_signalForControlEvents:UIControlEventTouchUpInside] doNext:^(id x) {
+        @strongify(self);
         self.forgetPwdButton.enabled = NO;
-        NSLog(@"====%i",self.forgetPwdButton.enabled);
     }] flattenMap:^RACStream *(id value) {
+        @strongify(self);
         return [self forgetPasswordSignal];
     }] subscribeNext:^(NSArray *result) {
+        @strongify(self);
         self.forgetPwdButton.enabled = YES;
+        DDLog(@"%@",result);
         BOOL success = [[result firstObject] boolValue];
         if (success) {
             NSString *message = [NSString stringWithFormat:@"您得密码是：%@",[result lastObject]];
@@ -142,12 +180,14 @@
 }
 
 /**
- *  创建一个信号量 用来判断是否登录成功
+ *  创建一个冷信号 用来判断是否登录成功 被subscribe时才有用
  *
  *  @return RACSignal(里面包含着登录结果的signal)
  */
 - (RACSignal *)signInSignal{
+    @weakify(self);
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        @strongify(self);
         [self.viewModel loginActionWithUserName:self.userName.text passWord:self.passWord.text complete:^(BOOL success) {
             [subscriber sendNext:@(success)];
             [subscriber sendCompleted];
@@ -157,14 +197,18 @@
 }
 
 /**
- *  创建一个信号量 用来判断是否找回密码
+ *  创建一个冷信号量 用来判断是否找回密码 被subscribe时才有用
  *
  *  @return RACSignal(里面包含着找回密码结果的signal)
  */
 - (RACSignal *)forgetPasswordSignal{
+    @weakify(self);
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        @strongify(self);
         [self.viewModel forgetPasswordWithUsername:self.userName.text complete:^(BOOL success, NSString *pwd) {
             [subscriber sendNext:@[@(success),pwd]];
+//            [subscriber sendNext:@(success)];
+//            [subscriber sendNext:pwd];
             [subscriber sendCompleted];
         }];
         return nil;
@@ -183,11 +227,6 @@
         return YES;
     }
     return NO;
-}
-
-- (void)tapAction{
-    [self.userName resignFirstResponder];
-    [self.passWord resignFirstResponder];
 }
 
 @end
